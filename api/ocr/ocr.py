@@ -3,8 +3,9 @@ import json
 from azure.core.credentials import AzureKeyCredential
 from azure.ai.documentintelligence import DocumentIntelligenceClient
 
-endpoint = "https://testingocrfeb12.cognitiveservices.azure.com/"
-key = "4WPJ5cUS8gmjBeJSNAfJdYrGiN7cSQpS6d5fUY9ffIReLzM6mEjUJQQJ99BDAC4f1cMXJ3w3AAALACOGPka1"
+# Enter Azure endpoint and API Key
+endpoint = "aaaaaa.azure.com/" 
+key = "aaaaaaa"
 
 def extract_fields_from_license(image_path):
     client = DocumentIntelligenceClient(endpoint=endpoint, credential=AzureKeyCredential(key))
