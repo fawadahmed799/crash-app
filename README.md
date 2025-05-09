@@ -127,6 +127,97 @@ e. Serve the Frontend:
 bash ng serve
 * Wait for compilation. Keep this terminal window open!
 
+🆕 OCR Auto-Fill Integration (Driver's License via Azure AI)
+This feature allows users to upload a driver's license image in the Party Details form, and automatically extracts key fields using Azure Document Intelligence (OCR).
+
+🔍 Extracted Fields
+First Name
+
+Last Name
+
+Driver License Number
+
+Address (formatted: Street, City, State PostalCode)
+
+🛠️ Setup Instructions
+1. 📁 Python Script Location
+Make sure the OCR script exists at:
+
+bash
+Copy
+Edit
+crash-app/api/ocr/ocr.py
+This script uses the Azure AI Document Intelligence API.
+
+2. 🐍 Python Environment Setup
+Navigate to the ocr/ folder and create a virtual environment:
+
+bash
+Copy
+Edit
+cd crash-app/api/ocr
+python -m venv venv
+venv\Scripts\activate  # For Windows
+Then install dependencies:
+
+bash
+Copy
+Edit
+pip install -r requirements.txt
+If requirements.txt doesn’t exist, install directly:
+
+bash
+Copy
+Edit
+pip install azure-ai-documentintelligence azure-core
+pip freeze > requirements.txt
+3. 🔧 .NET Backend Changes
+The backend exposes a new endpoint:
+
+bash
+Copy
+Edit
+POST /api/accidents/upload-license
+Accepts a file upload (image of license)
+
+Saves image to ocr/temp/
+
+Calls ocr.py and returns extracted values as JSON
+
+📄 File changed: AccidentsController.cs
+
+4. 🧪 Angular Frontend Changes
+Component:
+crash-app/crash/src/app/accident-report-container/partydialog.component.ts
+
+What’s Added:
+
+A file input to upload license image
+
+Spinner shown during OCR processing
+
+Fields auto-filled via setValue(...) using API response
+
+5. 🌐 API Configuration
+Ensure your Angular app points to the correct backend port.
+
+In partydialog.component.ts:
+
+ts
+Copy
+Edit
+fetch('http://localhost:5119/api/accidents/upload-license', { ... });
+(Adjust port if needed.)
+
+✅ Example Flow
+User clicks Add Party Details
+
+Uploads a license image
+
+Azure AI reads the image
+
+Form auto-fills with extracted details
+
 Running the Application
 Ensure both terminal windows (dotnet run for backend, ng serve for frontend) are running without errors.
 
